@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nRM9XlgCqbk=",
+  "dgSpecHash": "+ekCxqt3Nl0=",
   "success": true,
-  "projectFilePath": "C:\\wamp64\\www\\StoryCreepApi\\StoryCreepApi.csproj",
+  "projectFilePath": "C:\\wamp64\\www\\Prjoet-C-ReViz-\\StoryCreepApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JUNIOR\\.nuget\\packages\\microsoft.codecoverage\\18.4.0\\microsoft.codecoverage.18.4.0.nupkg.sha512",
     "C:\\Users\\JUNIOR\\.nuget\\packages\\microsoft.net.test.sdk\\18.4.0\\microsoft.net.test.sdk.18.4.0.nupkg.sha512",

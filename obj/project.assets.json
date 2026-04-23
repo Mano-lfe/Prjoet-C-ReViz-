@@ -858,11 +858,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\wamp64\\www\\StoryCreepApi\\StoryCreepApi.csproj",
+      "projectUniqueName": "C:\\wamp64\\www\\Prjoet-C-ReViz-\\StoryCreepApi.csproj",
       "projectName": "StoryCreepApi",
-      "projectPath": "C:\\wamp64\\www\\StoryCreepApi\\StoryCreepApi.csproj",
+      "projectPath": "C:\\wamp64\\www\\Prjoet-C-ReViz-\\StoryCreepApi.csproj",
       "packagesPath": "C:\\Users\\JUNIOR\\.nuget\\packages\\",
-      "outputPath": "C:\\wamp64\\www\\StoryCreepApi\\obj\\",
+      "outputPath": "C:\\wamp64\\www\\Prjoet-C-ReViz-\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\JUNIOR\\AppData\\Roaming\\NuGet\\NuGet.Config"
