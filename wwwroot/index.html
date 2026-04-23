@@ -1,0 +1,1396 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap">
+    <style>
+        :root {
+          --bg: #0a0b1e;
+          --bg2: #1a1b3a;
+          --bg3: #2a2b5a;
+          --border: rgba(255, 255, 255, 0.08);
+          --border-hover: rgba(255, 255, 255, 0.15);
+          --text: #ffffff;
+          --text-secondary: #e2e8f0;
+          --muted: #94a3b8;
+          --muted-light: #cbd5e1;
+          --primary: #6366f1;
+          --primary-hover: #4f46e5;
+          --primary-light: #a5b4fc;
+          --secondary: #06d6a0;
+          --secondary-hover: #059669;
+          --secondary-light: #6ee7b7;
+          --accent: #f59e0b;
+          --accent-hover: #d97706;
+          --accent-light: #fcd34d;
+          --danger: #ef4444;
+          --danger-hover: #dc2626;
+          --danger-light: #fca5a5;
+          --success: #10b981;
+          --success-light: #34d399;
+          --warning: #f59e0b;
+          --warning-light: #fcd34d;
+          --purple: #8b5cf6;
+          --purple-light: #a78bfa;
+          --pink: #ec4899;
+          --pink-light: #f9a8d4;
+          --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          --shadow-hover: 0 35px 60px -12px rgba(0, 0, 0, 0.6);
+          --shadow-inner: inset 0 2px 4px 0 rgba(255, 255, 255, 0.05);
+          --gradient-primary: linear-gradient(135deg, var(--primary), var(--purple));
+          --gradient-secondary: linear-gradient(135deg, var(--secondary), var(--accent));
+          --gradient-accent: linear-gradient(135deg, var(--pink), var(--primary));
+          --glass-bg: rgba(255, 255, 255, 0.03);
+          --glass-border: rgba(255, 255, 255, 0.08);
+          --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          min-height: 100vh;
+          font-family: "Satoshi", sans-serif;
+          color: var(--text);
+          background:
+            radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3), transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(120, 219, 226, 0.3), transparent 50%),
+            linear-gradient(135deg, var(--bg) 0%, var(--bg2) 50%, var(--bg3) 100%);
+          background-attachment: fixed;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 32px 20px;
+          overflow-x: hidden;
+        }
+
+        body::before {
+          content: '';
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background:
+            radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.1), transparent 40%),
+            radial-gradient(circle at 70% 80%, rgba(6, 214, 160, 0.1), transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05), transparent 50%);
+          pointer-events: none;
+          z-index: -1;
+        }
+
+        .app {
+          width: min(1200px, 100%);
+          display: grid;
+          grid-template-columns: 320px 1fr;
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: var(--glass-shadow);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          position: relative;
+          animation: fadeInUp 0.8s ease-out;
+        }
+
+        .app.hidden {
+          display: none;
+        }
+
+        .back-btn {
+          padding: 10px 16px;
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          color: var(--text);
+          cursor: pointer;
+          font-size: 0.85rem;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .back-btn:hover {
+          background: rgba(255, 255, 255, 0.12);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .app::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.02) 0%,
+            rgba(255, 255, 255, 0.01) 50%,
+            transparent 100%);
+          pointer-events: none;
+          border-radius: 24px;
+        }
+
+        .sidebar {
+          padding: 32px 28px;
+          background: rgba(255, 255, 255, 0.02);
+          border-right: 1px solid var(--border);
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .sidebar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(180deg,
+            rgba(99, 102, 241, 0.05) 0%,
+            transparent 50%,
+            rgba(6, 214, 160, 0.03) 100%);
+          pointer-events: none;
+        }
+
+        .badge {
+          width: fit-content;
+          padding: 8px 16px;
+          border-radius: 20px;
+          background: linear-gradient(135deg, var(--accent), var(--warning));
+          border: 1px solid rgba(245, 158, 11, 0.3);
+          font-size: 12px;
+          color: white;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+          position: relative;
+          z-index: 1;
+        }
+
+        .sidebar h1 {
+          font-size: 1.875rem;
+          line-height: 1.2;
+          background: linear-gradient(135deg, var(--text), var(--muted-light));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 8px;
+        }
+
+        .sidebar > p {
+          color: var(--muted);
+          font-size: 0.95rem;
+          line-height: 1.6;
+          opacity: 0.9;
+        }
+
+        .mini-card {
+          padding: 20px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--border);
+          backdrop-filter: blur(10px);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .mini-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: var(--gradient-primary);
+          opacity: 0.6;
+        }
+
+        .mini-card:hover {
+          background: rgba(255, 255, 255, 0.06);
+          border-color: var(--border-hover);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .mini-card h3 {
+          font-size: 0.95rem;
+          margin-bottom: 8px;
+          color: var(--text-secondary);
+          font-weight: 600;
+        }
+
+        .mini-card p {
+          color: var(--muted);
+          font-size: 0.875rem;
+          line-height: 1.5;
+        }
+
+        .main {
+          padding: 40px;
+          display: flex;
+          flex-direction: column;
+          gap: 28px;
+        }
+
+        .topbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+
+        .progress-wrap {
+          flex: 1;
+          min-width: 220px;
+        }
+
+        .progress-label {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          color: var(--muted);
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+
+        .progress {
+          height: 14px;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid var(--border);
+          overflow: hidden;
+          position: relative;
+        }
+
+        .progress::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            transparent 100%);
+          animation: shimmer 2s infinite;
+        }
+
+        .progress-bar {
+          height: 100%;
+          width: 0%;
+          background: var(--gradient-secondary);
+          border-radius: 20px;
+          transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .progress-bar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+          animation: progressShine 1.5s infinite;
+        }
+
+        .score-badge {
+          padding: 12px 20px;
+          border-radius: 20px;
+          background: linear-gradient(135deg, var(--warning), var(--accent));
+          border: 1px solid rgba(245, 158, 11, 0.3);
+          font-weight: 700;
+          color: white;
+          font-size: 0.9rem;
+          white-space: nowrap;
+          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+          position: relative;
+          z-index: 1;
+        }
+
+        .quiz-card {
+          padding: 32px;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--border);
+          display: grid;
+          gap: 20px;
+          backdrop-filter: blur(15px);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          animation: slideIn 0.5s ease-out;
+        }
+
+        .quiz-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: var(--gradient-primary);
+          opacity: 0.7;
+        }
+
+        .quiz-card:hover {
+          background: rgba(255, 255, 255, 0.06);
+          border-color: var(--border-hover);
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-hover);
+        }
+
+        .question-type {
+          font-size: 0.8rem;
+          color: var(--secondary);
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+          font-weight: 700;
+          background: rgba(6, 214, 160, 0.1);
+          padding: 4px 12px;
+          border-radius: 12px;
+          width: fit-content;
+          border: 1px solid rgba(6, 214, 160, 0.2);
+        }
+
+        .question-title {
+          font-size: 1.5rem;
+          line-height: 1.3;
+          font-weight: 600;
+          background: linear-gradient(135deg, var(--text), var(--text-secondary));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .question-help {
+          color: var(--muted);
+          font-size: 0.95rem;
+          line-height: 1.6;
+          opacity: 0.9;
+        }
+
+        textarea,
+        input[type="text"] {
+          width: 100%;
+          padding: 16px 20px;
+          border-radius: 16px;
+          border: 1px solid var(--border);
+          background: rgba(10, 11, 30, 0.6);
+          color: var(--text);
+          font: inherit;
+          font-size: 0.95rem;
+          outline: none;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+          box-shadow: var(--shadow-inner);
+        }
+
+        textarea {
+          min-height: 140px;
+          resize: vertical;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus {
+          border-color: var(--primary);
+          box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.15),
+            var(--shadow-inner);
+          background: rgba(10, 11, 30, 0.8);
+          transform: translateY(-1px);
+        }
+
+        .mcq-grid {
+          display: grid;
+          gap: 12px;
+        }
+
+        .mcq-btn {
+          width: 100%;
+          text-align: left;
+          padding: 16px 20px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid var(--border);
+          color: var(--text);
+          font: inherit;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          backdrop-filter: blur(10px);
+          position: relative;
+          overflow: hidden;
+          text-transform: none;
+        }
+
+        .mcq-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.05),
+            transparent);
+          transition: left 0.5s ease;
+        }
+
+        .mcq-btn:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: var(--border-hover);
+          transform: translateY(-2px) scale(1.01);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .mcq-btn:hover::before {
+          left: 100%;
+        }
+
+        .mcq-btn .letter {
+          min-width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid var(--border);
+          display: grid;
+          place-items: center;
+          font-size: 0.8rem;
+          font-weight: 700;
+          transition: all 0.3s ease;
+          flex-shrink: 0;
+        }
+
+        .mcq-btn.selected {
+          background: rgba(99, 102, 241, 0.15);
+          border-color: var(--primary);
+          color: var(--primary-light);
+          font-weight: 600;
+          box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .mcq-btn.selected .letter {
+          background: var(--primary);
+          border-color: var(--primary);
+          color: white;
+          box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .mcq-btn.correct {
+          background: rgba(16, 185, 129, 0.15);
+          border-color: var(--success);
+          color: var(--success-light);
+          animation: correctPulse 0.6s ease-out;
+        }
+
+        .mcq-btn.wrong {
+          background: rgba(239, 68, 68, 0.12);
+          border-color: var(--danger);
+          color: var(--danger-light);
+          opacity: 0.8;
+          animation: wrongShake 0.5s ease-out;
+        }
+
+        .mcq-btn.disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+
+        .actions {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
+        .btns {
+          display: flex;
+          gap: 12px;
+        }
+
+        button {
+          border: none;
+          border-radius: 50px;
+          padding: 14px 28px;
+          font: inherit;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-size: 0.85rem;
+        }
+
+        button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+          transition: left 0.5s ease;
+        }
+
+        button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover::before {
+          left: 100%;
+        }
+
+        button:active {
+          transform: translateY(0);
+        }
+
+        .btn-primary {
+          background: var(--gradient-primary);
+          color: white;
+          border: 1px solid rgba(99, 102, 241, 0.3);
+          box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+          background: linear-gradient(135deg, var(--primary-hover), var(--purple));
+          box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+          background: rgba(255, 255, 255, 0.05);
+          color: var(--text);
+          border: 1px solid var(--border);
+          backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: var(--border-hover);
+        }
+
+        .result-card {
+          display: none;
+          padding: 32px;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--border);
+          flex-direction: column;
+          gap: 20px;
+          backdrop-filter: blur(15px);
+          animation: fadeInScale 0.6s ease-out;
+        }
+
+        .result-card.show {
+          display: flex;
+        }
+
+        .result-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+
+        .result-score {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: var(--accent);
+          background: rgba(245, 158, 11, 0.1);
+          padding: 8px 16px;
+          border-radius: 12px;
+          border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .result-level {
+          padding: 12px 20px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--border);
+          color: var(--muted);
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        .feedback-list {
+          display: grid;
+          gap: 12px;
+        }
+
+        .feedback-item {
+          padding: 16px 20px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid var(--border);
+          font-size: 0.9rem;
+          line-height: 1.6;
+          color: var(--muted);
+          backdrop-filter: blur(10px);
+          transition: all 0.3s ease;
+        }
+
+        .feedback-item:hover {
+          background: rgba(255, 255, 255, 0.05);
+          border-color: var(--border-hover);
+          transform: translateX(4px);
+        }
+
+        .summary-box {
+          white-space: pre-line;
+          line-height: 1.7;
+          padding: 24px;
+          border-radius: 16px;
+          background: rgba(10, 11, 30, 0.6);
+          border: 1px solid var(--border);
+          font-size: 0.9rem;
+          color: var(--muted);
+          max-height: 400px;
+          overflow-y: auto;
+          backdrop-filter: blur(15px);
+          box-shadow: var(--shadow-inner);
+        }
+
+        .summary-box::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .summary-box::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 10px;
+        }
+
+        .summary-box::-webkit-scrollbar-thumb {
+          background: var(--gradient-primary);
+          border-radius: 10px;
+          border: 2px solid rgba(10, 11, 30, 0.6);
+        }
+
+        .summary-box::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(135deg, var(--primary-hover), var(--purple));
+        }
+
+        .meta {
+          color: var(--muted);
+          font-size: 0.875rem;
+          opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes shimmer {
+          0%, 100% {
+            transform: translateX(-100%);
+          }
+          50% {
+            transform: translateX(100%);
+          }
+        }
+
+        @keyframes progressShine {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        @keyframes correctPulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        @keyframes wrongShake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          25% {
+            transform: translateX(-5px);
+          }
+          75% {
+            transform: translateX(5px);
+          }
+        }
+
+        /* Responsive */
+        @media (max-width: 860px) {
+          .app {
+            grid-template-columns: 1fr;
+            margin: 16px;
+            border-radius: 20px;
+          }
+          .sidebar {
+            border-right: none;
+            border-bottom: 1px solid var(--border);
+            padding: 24px 20px;
+          }
+          .main {
+            padding: 24px 20px;
+          }
+          .quiz-card {
+            padding: 24px;
+          }
+          .question-title {
+            font-size: 1.3rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          body {
+            padding: 16px 12px;
+          }
+          .app {
+            margin: 8px;
+          }
+          .sidebar {
+            padding: 20px 16px;
+          }
+          .main {
+            padding: 20px 16px;
+          }
+          .quiz-card {
+            padding: 20px;
+          }
+          .question-title {
+            font-size: 1.2rem;
+          }
+          .topbar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 16px;
+          }
+          .actions {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          .btns {
+            justify-content: center;
+          }
+        }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="badge">ReViz+</div>
+        <h1>Cours C# et Tests unitaires</h1>
+        <p>
+          Réponds aux questions une par une. À la fin, tu obtiens ton résuktats et quelques conseils pour la suite.
+        </p>
+        <div class="mini-card">
+          <h3>Conseil</h3>
+          <p>
+            Écris avec tes propres mots. Même imparfait, ça aide à mémoriser.
+          </p>
+        </div>
+        <div class="mini-card">
+          <h3>Types de questions</h3>
+          <p>QCM + réponses libres.</p>
+        </div>
+      </aside>
+
+      <section class="main">
+        <div class="topbar">
+          <a href="home.html" class="back-btn">← Accueil</a>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span id="progressText">Question 1 / 21</span>
+              <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+          </div>
+          <div class="score-badge" id="scoreBadge">Score QCM : 0 / 16</div>
+        </div>
+
+        <div class="quiz-card" id="quizCard">
+          <div class="question-type" id="qType"></div>
+          <h2 class="question-title" id="qTitle"></h2>
+          <p class="question-help" id="qHelp"></p>
+          <div id="answerArea">
+            <input type="text" id="answerInput" style="display: none" />
+            <textarea
+              id="answerTextarea"
+              style="display: none"
+              placeholder="Écris ta réponse ici..."
+            ></textarea>
+            <div class="mcq-grid" id="answerMcq" style="display: none"></div>
+          </div>
+          <div class="actions">
+            <span class="meta" id="questionMeta"></span>
+            <div class="btns">
+              <button class="btn-secondary" id="resetBtn">Recommencer</button>
+              <button class="btn-primary" id="nextBtn">Suivant →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-card" id="resultCard">
+          <div class="badge">Résultats</div>
+          <div class="summary-box" id="summaryBox">
+            Le récapitulatif apparaîtra ici.
+          </div>
+          <span class="meta" id="resultMeta">—</span>
+          <div class="btns">
+            <button class="btn-secondary" id="restartBtn">
+              Refaire le quiz
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          key: "name",
+          type: "Profil",
+          title: "Quel est ton prénom ?",
+          help: "Il sera utilisé dans le récapitulatif final.",
+          input: "text",
+          placeholder: "Ex : Mano"
+        },
+        {
+          key: "q1",
+          type: "QCM — Test unitaire",
+          title: "Un test unitaire vérifie…",
+          help: "Choisis la meilleure réponse.",
+          input: "mcq",
+          choices: [
+            "Toute l'application en même temps.",
+            "Une petite partie du code de façon isolée.",
+            "La connexion entre le front et le back.",
+            "Les performances du serveur."
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q2",
+          type: "QCM — Méthode AAA",
+          title: "Que signifie 'Arrange' dans AAA ?",
+          help: "Pense aux 3 étapes d'un test.",
+          input: "mcq",
+          choices: [
+            "On exécute la méthode à tester.",
+            "On vérifie le résultat attendu.",
+            "On prépare les données et le contexte du test.",
+            "On déploie l'application."
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q3",
+          type: "QCM — Méthode AAA",
+          title: "Que signifie 'Assert' dans AAA ?",
+          help: "C'est la dernière étape.",
+          input: "mcq",
+          choices: [
+            "On prépare les objets nécessaires.",
+            "On vérifie que le résultat est celui attendu.",
+            "On exécute la méthode testée.",
+            "On supprime les données de test."
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q4",
+          type: "QCM — Mock",
+          title: "Un mock sert à…",
+          help: "Choisis la réponse correcte.",
+          input: "mcq",
+          choices: [
+            "Optimiser les requêtes SQL.",
+            "Générer automatiquement de la documentation.",
+            "Remplacer une dépendance réelle par une simulation.",
+            "Compiler le code plus rapidement."
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q5",
+          type: "QCM — Framework",
+          title: "Lequel est un framework de test en C# ?",
+          help: "Un seul est correct.",
+          input: "mcq",
+          choices: [
+            "Jest",
+            "Mocha",
+            "xUnit",
+            "Jasmine"
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q6",
+          type: "QCM — Injection de dépendances",
+          title: "L'injection de dépendances permet de…",
+          help: "Pense à la testabilité.",
+          input: "mcq",
+          choices: [
+            "Rendre le code plus lent mais plus lisible.",
+            "Remplacer facilement une implémentation pour tester.",
+            "Supprimer tous les tests unitaires.",
+            "Générer des interfaces graphiques automatiquement."
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q7",
+          type: "QCM — Bonne pratique",
+          title: "Un bon test unitaire doit…",
+          help: "Choisis la bonne pratique.",
+          input: "mcq",
+          choices: [
+            "Tester plusieurs comportements à la fois.",
+            "Dépendre d'une base de données réelle.",
+            "Vérifier un seul comportement précis.",
+            "Être écrit après la mise en production."
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q8",
+          type: "QCM — C# de base",
+          title: "Assert.Equal(expected, actual) vérifie que…",
+          help: "Pense à ce que fait cette méthode.",
+          input: "mcq",
+          choices: [
+            "Les deux valeurs sont différentes.",
+            "La valeur attendue est égale à la valeur obtenue.",
+            "Le test est ignoré.",
+            "Une exception est levée."
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q9",
+          type: "QCM — Vocabulaire",
+          title: "Un test est 'déterministe' quand…",
+          help: "Pense à la stabilité du test.",
+          input: "mcq",
+          choices: [
+            "Il donne des résultats différents à chaque fois.",
+            "Il dépend de l'heure du système.",
+            "Il donne toujours le même résultat dans les mêmes conditions.",
+            "Il s'exécute uniquement en production."
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q10",
+          type: "QCM — Framework",
+          title: "MSTest est…",
+          help: "Choisis la bonne définition.",
+          input: "mcq",
+          choices: [
+            "Un framework JavaScript.",
+            "Un framework de test unitaire Microsoft pour C#.",
+            "Un outil de déploiement cloud.",
+            "Un langage de requête SQL."
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q11",
+          type: "QCM — Vocabulaire",
+          title: "Un 'stub' est…",
+          help: "Proche d'un mock mais plus simple.",
+          input: "mcq",
+          choices: [
+            "Un type de boucle en C#.",
+            "Une simulation simple qui retourne des valeurs fixes.",
+            "Un framework de test.",
+            "Une classe abstraite en C#."
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q12",
+          type: "QCM — C# de base",
+          title: "Quelle annotation marque un test dans xUnit ?",
+          help: "C'est un attribut C#.",
+          input: "mcq",
+          choices: [
+            "[Test]",
+            "[TestMethod]",
+            "[Fact]",
+            "[Check]"
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q13",
+          type: "QCM — C# de base",
+          title: "Quelle annotation marque un test dans MSTest ?",
+          help: "Différent de xUnit.",
+          input: "mcq",
+          choices: [
+            "[Fact]",
+            "[TestMethod]",
+            "[Test]",
+            "[Run]"
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q14",
+          type: "QCM — Bonne pratique",
+          title: "Un test unitaire doit être…",
+          help: "Pense à la lisibilité et à la rapidité.",
+          input: "mcq",
+          choices: [
+            "Long et complexe pour tout couvrir.",
+            "Lent pour être plus précis.",
+            "Court, lisible et rapide à exécuter.",
+            "Écrit uniquement par le chef de projet."
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "q15",
+          type: "QCM — Vocabulaire",
+          title: "TDD signifie…",
+          help: "C'est une méthode de développement.",
+          input: "mcq",
+          choices: [
+            "Test Driven Deployment",
+            "Test Driven Development",
+            "Total Dynamic Debugging",
+            "Technical Design Document"
+          ],
+          correctIndex: 1
+        },
+        {
+          key: "q16",
+          type: "QCM — Vocabulaire",
+          title: "Dans TDD, on écrit le test…",
+          help: "C'est le principe fondamental de TDD.",
+          input: "mcq",
+          choices: [
+            "Après avoir écrit le code.",
+            "En même temps que le code.",
+            "Avant d'écrire le code.",
+            "Seulement en production."
+          ],
+          correctIndex: 2
+        },
+        {
+          key: "dependencyInjection",
+          type: "Réponse libre",
+          title: "Pourquoi l'injection de dépendances aide à tester ?",
+          help: "Explique avec tes mots.",
+          input: "textarea",
+          placeholder: "Ex : on peut injecter une fausse implémentation..."
+        },
+        {
+          key: "arrangeActAssert",
+          type: "Réponse libre",
+          title: "Explique les 3 étapes Arrange / Act / Assert.",
+          help: "Décris chaque étape brièvement.",
+          input: "textarea",
+          placeholder: "Arrange = ..., Act = ..., Assert = ..."
+        },
+        {
+          key: "mockDefinition",
+          type: "Réponse libre",
+          title: "Dans tes mots, c'est quoi un mock ?",
+          help: "Pas besoin d'être parfait.",
+          input: "textarea",
+          placeholder: "Ex : un objet qui simule..."
+        },
+        {
+          key: "unitTestDefinition",
+          type: "Réponse libre",
+          title: "Donne ta propre définition d'un test unitaire.",
+          help: "Avec tes mots, pas de copier-coller.",
+          input: "textarea",
+          placeholder: "Un test unitaire c'est..."
+        },
+        {
+          key: "frameworkName",
+          type: "Réponse libre — Bonus",
+          title: "Cite un framework de test C# et explique pourquoi tu le choisirais.",
+          help: "xUnit, NUnit ou MSTest.",
+          input: "textarea",
+          placeholder: "Je choisirais ... parce que..."
+        }
+      ];
+
+  
+      let currentQuestion = 0;
+      let mcqScore = 0;
+      const answers = {};
+      const TOTAL_MCQ = 16;
+
+
+      const progressText    = document.getElementById("progressText");
+      const progressPercent = document.getElementById("progressPercent");
+      const progressBar     = document.getElementById("progressBar");
+      const scoreBadge      = document.getElementById("scoreBadge");
+      const quizCard        = document.getElementById("quizCard");
+      const resultCard      = document.getElementById("resultCard");
+      const qType           = document.getElementById("qType");
+      const qTitle          = document.getElementById("qTitle");
+      const qHelp           = document.getElementById("qHelp");
+      const answerInput     = document.getElementById("answerInput");
+      const answerTextarea  = document.getElementById("answerTextarea");
+      const answerMcq       = document.getElementById("answerMcq");
+      const questionMeta    = document.getElementById("questionMeta");
+      const nextBtn         = document.getElementById("nextBtn");
+      const resetBtn        = document.getElementById("resetBtn");
+      const restartBtn      = document.getElementById("restartBtn");
+      const summaryBox      = document.getElementById("summaryBox");
+      const resultMeta      = document.getElementById("resultMeta");
+
+
+      function updateProgress() {
+        const total   = questions.length;
+        const current = currentQuestion + 1;
+        const pct     = Math.round((current / total) * 100);
+        progressText.textContent    = `Question ${Math.min(current, total)} / ${total}`;
+        progressPercent.textContent = `${pct}%`;
+        progressBar.style.width     = `${pct}%`;
+        scoreBadge.textContent      = `Score QCM : ${mcqScore} / ${TOTAL_MCQ}`;
+      }
+
+      function loadQuestion() {
+        const q = questions[currentQuestion];
+
+        qType.textContent  = q.type;
+        qTitle.textContent = q.title;
+        qHelp.textContent  = q.help;
+
+        answerInput.style.display    = "none";
+        answerTextarea.style.display = "none";
+        answerMcq.style.display      = "none";
+        answerMcq.innerHTML          = "";
+
+        if (q.input === "text") {
+          answerInput.style.display = "block";
+          answerInput.placeholder   = q.placeholder || "";
+          answerInput.value         = answers[q.key] || "";
+          questionMeta.textContent  = "Réponse libre";
+        }
+        else if (q.input === "textarea") {
+          answerTextarea.style.display = "block";
+          answerTextarea.placeholder   = q.placeholder || "";
+          answerTextarea.value         = answers[q.key] || "";
+          questionMeta.textContent     = "Réponse libre";
+        }
+        else if (q.input === "mcq") {
+          answerMcq.style.display  = "grid";
+          q.choices.forEach((choice, index) => {
+            const btn = document.createElement("button");
+            btn.type      = "button";
+            btn.className = "mcq-btn";
+            btn.innerHTML = `${choice}`;
+            if (answers[q.key] === choice) {
+              btn.classList.add("selected");
+              // Vérifier si la réponse sauvegardée était correcte
+              if (choice === q.choices[q.correctIndex]) {
+                btn.classList.add("correct");
+              } else {
+                btn.classList.add("wrong");
+              }
+            }
+            btn.addEventListener("click", () => {
+              // Empêcher de changer de réponse si déjà répondu
+              if (answers[q.key]) return;
+
+              answers[q.key] = choice;
+              Array.from(answerMcq.children).forEach(b => {
+                b.classList.remove("selected");
+                if (b !== btn) {
+                  // Marquer les autres boutons comme désactivés
+                  b.classList.add("disabled");
+                }
+              });
+              btn.classList.add("selected");
+
+              // Vérifier immédiatement si correct ou faux
+              if (choice === q.choices[q.correctIndex]) {
+                btn.classList.add("correct");
+              } else {
+                btn.classList.add("wrong");
+              }
+            });
+            answerMcq.appendChild(btn);
+          });
+        }
+
+        nextBtn.textContent = currentQuestion === questions.length - 1
+          ? "Terminer le quiz ✓"
+          : "Suivant →";
+
+        updateProgress();
+      }
+
+      function saveCurrentAnswer() {
+        const q = questions[currentQuestion];
+        if (q.input === "text")     answers[q.key] = answerInput.value;
+        if (q.input === "textarea") answers[q.key] = answerTextarea.value;
+      }
+
+      function countMcqScore() {
+        let s = 0;
+        questions.forEach(q => {
+          if (q.input === "mcq" && answers[q.key] === q.choices[q.correctIndex]) s++;
+        });
+        return s;
+      }
+
+      async function showResults() {
+        quizCard.style.display = "none";
+        resultCard.classList.add("show");
+        progressText.textContent    = "Quiz terminé !";
+        progressPercent.textContent = "100%";
+        progressBar.style.width     = "100%";
+
+        summaryBox.textContent  = "Envoi au backend pour correction...";
+        resultMeta.textContent = "Analyse en cours...";
+
+        try {
+          const res = await fetch("/api/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name                : answers["name"]                || "",
+              unitTestDefinition  : answers["unitTestDefinition"]  || "",
+              arrangeActAssert    : answers["arrangeActAssert"]    || "",
+              mockDefinition      : answers["mockDefinition"]      || "",
+              dependencyInjection : answers["dependencyInjection"] || "",
+              frameworkName       : answers["frameworkName"]       || ""
+            })
+          });
+
+          if (!res.ok) throw new Error("Erreur API");
+
+          const data = await res.json();
+
+          const frontMcq          = countMcqScore();
+          mcqScore                = frontMcq;
+          const totalScore        = frontMcq + data.score;
+          const maxTotalScore     = TOTAL_MCQ + data.maxScore; // 16 + 5 = 21
+          scoreBadge.textContent  = `Score : ${totalScore} / ${maxTotalScore}`;
+          resultMeta.textContent  = `Généré le ${data.generatedAt}`;
+
+          summaryBox.textContent = data.story;
+
+        } catch (err) {
+          summaryBox.textContent  = "Erreur lors de la connexion au backend.";
+          resultMeta.textContent = "Erreur API";
+          console.error(err);
+        }
+      }
+
+
+      nextBtn.addEventListener("click", async () => {
+        saveCurrentAnswer();
+        if (currentQuestion < questions.length - 1) {
+          currentQuestion++;
+          loadQuestion();
+        } else {
+          await showResults();
+        }
+      });
+
+      resetBtn.addEventListener("click", () => {
+        currentQuestion = 0;
+        mcqScore        = 0;
+        for (const k in answers) delete answers[k];
+        resultCard.classList.remove("show");
+        quizCard.style.display = "grid";
+        loadQuestion();
+      });
+
+      restartBtn.addEventListener("click", () => {
+        currentQuestion = 0;
+        mcqScore        = 0;
+        for (const k in answers) delete answers[k];
+        resultCard.classList.remove("show");
+        quizCard.style.display  = "grid";
+        summaryBox.textContent  = "Le récapitulatif apparaîtra ici.";
+        resultMeta.textContent  = "—";
+        loadQuestion();
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadQuestion();
+      });
+    </script>
+  </body>
+</html>
